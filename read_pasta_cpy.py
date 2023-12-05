@@ -33,8 +33,8 @@ for arquivo in lista_arquivos:
         # Extrai texto por meio do tesseract
         texto = pytesseract.image_to_string(imagem_cinza)
         
-        # Extrai no texto da imagem o numero da NF
-        numero_nf = re.search(r'N° 000(\d{3})', texto)
+        # Extrai no texto da imagem o número da NF
+        numero_nf = re.search(r'(N[°®] (\d+\.\d+\.\d+))', texto)
         
         # Condições se entrar ou não encontrar o numero da NF
         if numero_nf:
@@ -42,12 +42,12 @@ for arquivo in lista_arquivos:
             numero_nf_extraido = numero_nf.group(1)
             
             # Nome do novo arquivo
-            novo_nome_renomeado = f"nfe_{numero_nf_extraido}.png"
+            novo_nome_renomeado = f"NF-{numero_nf_extraido}.png"
             
             # Salva o arquivo renomeado na pasta renomeados
             salvando_renomeado = os.path.join(pasta_destino, novo_nome_renomeado)
             
-            # Salva uma cópia com o numero extraido
+            # Salva uma cópia com o número extraido
             shutil.copy(caminho_imagem, salvando_renomeado)
             
             # Exclui a imagem original na pasta arquivos
@@ -55,7 +55,7 @@ for arquivo in lista_arquivos:
 
             # Print no terminal
             print(f"NF 000-{numero_nf_extraido} - Renomeada!")
-            print(f"Imagem {arquivo} salva em: {salvando_renomeado}")
+            print(f"Salvando {salvando_renomeado}")
             print(f"Imagem {caminho_imagem} removida")
             print(f"")
 
